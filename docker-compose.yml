@@ -1,0 +1,13 @@
+version: '3.6'
+
+services:  
+ web:
+  build: .
+  ports:
+   - "8080:8080"
+  environment:
+   - API_URL=localhost:8081
+  volumes:
+   - .:/app
+  network_mode: "host"
+  
