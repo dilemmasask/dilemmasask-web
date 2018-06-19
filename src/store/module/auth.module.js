@@ -1,9 +1,7 @@
-import JwtService from '../../service/jwt.service';
-import User from '../../model/user';
+import AuthService from '../../service/auth.service';
 
 const state = {
-  isAuthenticated: !!JwtService.getToken(),
-  loggedUser: new User(null, '', '', '')
+  authenticatedUser: AuthService.getLoggedUser()
 };
 
 const getters = {
@@ -16,19 +14,23 @@ const getters = {
 };
 
 const mutations = {
-  setAuth (state, token) {
-    state.isAuthenticated = true;
-    JwtService.saveToken(token);
+  setLoggedUser (user) {
+    this.loggedUser = user;
+  }
+};
+
+const actions = {
+  signIn ({ commit }) {
+    AuthService.signIn().then(user => { commit('setLoggedUser', user); });
   },
-  purgeAuth (state) {
-    state.isAuthenticated = false;
-    state.user = {};
-    JwtService.destroyToken();
+  signOut ({ commit }) {
+    AuthService.signOut().then(() => commit('setLoggedUser', null));
   }
 };
 
 export default {
   state,
   mutations,
-  getters
+  getters,
+  actions
 };

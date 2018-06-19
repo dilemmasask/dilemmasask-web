@@ -1,0 +1,10 @@
+export const SIGN_IN = 'sign_in';
+export const SIGN_OUT = 'sign_out';
+export const POST_CREATE = 'post_create';
+export const POST_DELETE = 'post_delete';
+export const POST_VOTE = 'post_vote';
+export const COMMENT_CREATE = 'comment_create';
+export const COMMENT_DELETE = 'comment_delete';
+export const FETCH_POSTS = 'fetch_posts';
+export const FETCH_POST = 'fetch_post';
+export const FETCH_COMMENT = 'fetch_comment';

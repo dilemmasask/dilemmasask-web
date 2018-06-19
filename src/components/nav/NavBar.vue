@@ -20,21 +20,16 @@
 
 <script>
 import Vue from 'vue';
+import { SIGN_IN, SIGN_OUT } from '../../store/actions.type.js';
 
 export default {
   name: 'NavBar',
   methods: {
     onSignIn: function () {
-      const store = this.$store;
-      Vue.googleAuth().signIn(function (authorizationCode) {
-        store.commit('setAuth', authorizationCode);
-      }, function (error) {
-        console.log(error);
-        store.commit('purgeAuth');
-      });
+      const store = this.$store.dispatch(SIGN_IN);
     },
     onSignOut: function () {
-      this.$store.commit('purgeAuth');
+      this.$store.dispatch(SIGN_OUT);
     }
   }
 };

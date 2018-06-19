@@ -1,11 +1,14 @@
 import PostService from '../../service/api/post.service';
-import Post from '../../model/post';
-import Poll from '../../model/poll';
-import Answer from '../../model/answer';
+import {
+  FETCH_POSTS, FETCH_POST, POST_CREATE, POST_DELETE, POST_VOTE, COMMENT_CREATE, COMMENT_DELETE, FETCH_COMMENTS
+} from '../actions.type';
+import CommentService from '../../service/api/comment.service';
 
 const state = {
   posts: [],
-  isLoading: true
+  isLoading: true,
+  loadingPosts: {},
+  loadingComments: {}
 };
 
 const getters = {
@@ -14,35 +17,106 @@ const getters = {
   },
   isLoading (state) {
     return state.isLoading;
+  },
+  post (state, postId) {
+    return state.posts.find(post => post.id === postId);
+  },
+  isPostLoading (state, postId) {
+    return !!state.loadingPosts.postId;
+  },
+  isCommentsLoading (state, postId) {
+    return state.loadingComments.postId;
   }
 };
 
 const mutations = {
-  fetchStart (state) {
+  setPosts (state, posts) {
+    state.posts = posts;
+  },
+  setPost (state, post) {
+    if (!post) return;
+    const index = state.posts.findIndex(p => p.id === post.id);
+    if (index >= 0) state.posts[index] = post;
+    else state.posts.push(post);
+  },
+  setComments (state, postId, comments) {
+    const post = state.posts.find(post => post.id === postId);
+    if (!post) return;
+    post.comments = comments;
+  },
+  startLoading (state) {
     state.isLoading = true;
   },
-  fetchEnd (state, posts) {
-    state.posts = posts;
+  endLoading (state) {
     state.isLoading = false;
+  },
+  startPostLoading (state, postId) {
+    state.postLoading.postId = true;
+  },
+  stopPostLoading (state, postId) {
+    delete state.postLoading.postId;
+  },
+  startCommentsLoading (state, postId) {
+    state.commentsLoading.postId = true;
+  },
+  stopCommentsLoading (state, postId) {
+    delete state.commentsLoading.postId;
   }
 };
 
 const actions = {
-  fetchPosts ({
-    commit
-  }, [page, perPage] = [1, 10]) {
-    commit('fetchStart');
-    PostService.getByPage(page, perPage).then(posts => {
-      posts = posts.map(p => new Post(
-        p.id,
-        p.author.fullName,
-        new Date(p.dateTime),
-        new Poll(
-          p.poll.question,
-          p.poll.answers.map(
-            a => new Answer(a.id, a.text, a.votes)))));
-
-      commit('fetchEnd', posts);
+  [FETCH_POSTS] ({ commit }, {
+    page = 0,
+    perPage = 10,
+    sort = null,
+    from = null,
+    to = null,
+    tag = null
+  }) {
+    commit('startLoading');
+    return PostService.getPosts(arguments[1])
+      .then(response => {
+        commit('setPosts', response.posts);
+        commit('endLoading');
+      });
+  },
+  [FETCH_POST] ({ commit }, postId) {
+    commit('startPostLoading', postId);
+    return PostService.getPost(postId).then(post => {
+      commit('setPost', post);
+      commit('stopPostLoading', postId);
+    });
+  },
+  [POST_CREATE] ({ commit, dispatch }, newPostRequest) {
+    return PostService.createPost(newPostRequest)
+      .then(post => dispatch(FETCH_POSTS));
+  },
+  [POST_DELETE] ({ commit, dispatch }, postId) {
+    return PostService.deletePost(postId)
+      .then(post => dispatch(FETCH_POSTS));
+  },
+  [POST_VOTE] ({ commit, dispatch }, {postId, answerId}) {
+    return PostService.vote(postId, answerId).then(post => dispatch(FETCH_POST));
+  },
+  [COMMENT_CREATE] ({ commit }, {postId, newCommentRequest}) {
+    commit('startCommentsLoading', postId);
+    return CommentService.createComment(newCommentRequest).then(response => {
+      commit('setComments', postId, response.comments);
+      commit('stopCommentsLoading', postId);
+    });
+  },
+  [COMMENT_DELETE] ({ commit }, postId, commentId) {
+    commit('startCommentsLoading', postId);
+    return CommentService.deleteComment(commentId).then(response => {
+      commit('setComments', postId, response.comments);
+      commit('stopCommentsLoading', postId);
+    });
+  },
+  [FETCH_COMMENTS] ({ commit }, postId) {
+    commit('startCommentsLoading', postId);
+    return CommentService.getComments(postId).then(response => {
+      commit('setComments', postId, response.comments);
+      commit('stopCommentsLoading', postId);
     });
   }
 };

@@ -1,20 +1,33 @@
 import ApiService from './api.service';
 
-const POST_URL = '/post';
+const POST_URL = '/posts';
 
 const PostService = {
-  create (post) {
-    return ApiService.post(`${POST_URL}`, post);
+  getPosts ({
+    page = 0,
+    perPage = 10,
+    sort = null,
+    from = null,
+    to = null,
+    tag = null
+  }) {
+    const query = Object.keys(arguments[0])
+      .filter((k, v) => !!v)
+      .map((k, v) => `${k}=${v}`)
+      .join('&');
+    return ApiService.get(`${POST_URL}?${query}`);
   },
-  delete (postId) {},
-  get (postId) {
-    return ApiService.get(`${POST_URL}/postId`);
+  getPost (postId) {
+    return ApiService.get(`${POST_URL}/${postId}`);
   },
-  getByPage (page, perPage) {
-    return ApiService.get(`${POST_URL}?page=${page}&per_page=${perPage}`);
+  deletePost (postId) {
+    return ApiService.delete(`${POST_URL}/${postId}`);
+  },
+  createPost (newPostReqest) {
+    return ApiService.post(`${POST_URL}`, newPostReqest);
   },
   vote (postId, answerId) {
-    return ApiService.post(`${POST_URL}/${postId}/answer/${answerId}`, '');
+    return ApiService.post(`${POST_URL}/${postId}/vote/${answerId}`, '');
   }
 };
 
