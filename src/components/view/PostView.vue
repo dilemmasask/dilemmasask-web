@@ -1,7 +1,7 @@
 <template>
 <b-card>
   <b-row class="justify-content-between" slot="header">
-      <b-col cols="auto">{{post.user}}</b-col>
+      <b-col cols="auto">{{post.author.name}}</b-col>
       <b-col cols="auto">{{dateText}}</b-col>
   </b-row>
   <b-row>

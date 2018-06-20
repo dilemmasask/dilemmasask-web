@@ -1,7 +1,7 @@
 <template>
 <b-card>
   <poll-input v-model="poll"></poll-input>
-  <b-btn @click="onPollSave">Save</b-btn>
+  <b-btn @click="onPollSave" block variant="success">Post</b-btn>
 </b-card>
 </template>
 

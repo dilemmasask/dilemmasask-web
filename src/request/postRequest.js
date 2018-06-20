@@ -1,16 +1,16 @@
-export class Tag {
+export class TagRequest {
   constructor (name) {
     this.name = name;
   }
 }
 
-export class Answer {
+export class AnswerRequest {
   constructor (answer) {
     this.answer = answer;
   }
 }
 
-export class Poll {
+export class PollRequest {
   constructor (question, answers, tags) {
     this.question = question;
     this.answers = answers;
@@ -18,13 +18,13 @@ export class Poll {
   }
 }
 
-export default class NewPostRequest {
+export default class PostRequest {
   constructor (pollRequest) {
     this.poll = pollRequest;
   }
 }
 
-export class NewPostRequestBuilder {
+export class PostRequestBuilder {
   constructor () {
     this.question = '';
     this.answers = [];
@@ -47,10 +47,10 @@ export class NewPostRequestBuilder {
   }
 
   build () {
-    return new NewPostRequest(new Poll(
+    return new PostRequest(new PollRequest(
       this.question,
-      this.answers.map(a => new Answer(a)),
-      this.tags.map(t => new Tag(t))
+      this.answers.map(a => new AnswerRequest(a)),
+      this.tags.map(t => new TagRequest(t))
     ));
   }
 }

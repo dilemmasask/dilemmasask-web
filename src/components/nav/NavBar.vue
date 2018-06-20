@@ -26,10 +26,10 @@ export default {
   name: 'NavBar',
   methods: {
     onSignIn: function () {
-      const store = this.$store.dispatch(SIGN_IN);
+      Vue.store.dispatch(SIGN_IN);
     },
     onSignOut: function () {
-      this.$store.dispatch(SIGN_OUT);
+      Vue.store.dispatch(SIGN_OUT);
     }
   }
 };

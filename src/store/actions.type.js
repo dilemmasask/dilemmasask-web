@@ -7,4 +7,4 @@ export const COMMENT_CREATE = 'comment_create';
 export const COMMENT_DELETE = 'comment_delete';
 export const FETCH_POSTS = 'fetch_posts';
 export const FETCH_POST = 'fetch_post';
-export const FETCH_COMMENT = 'fetch_comment';
+export const FETCH_COMMENTS = 'fetch_comments';
