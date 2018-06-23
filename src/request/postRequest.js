@@ -5,8 +5,8 @@ export class TagRequest {
 }
 
 export class AnswerRequest {
-  constructor (answer) {
-    this.answer = answer;
+  constructor (text) {
+    this.text = text;
   }
 }
 

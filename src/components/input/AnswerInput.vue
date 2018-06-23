@@ -7,7 +7,13 @@
 <script>
 export default {
   name: 'AnswerInput',
-  props: ['value', 'no']
+  props: ['value', 'no'],
+  methods: {
+    validate () {
+      if (this.value.text) return true;
+      return false;
+    }
+  }
 };
 </script>
 <style>

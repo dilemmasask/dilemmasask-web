@@ -1,6 +1,6 @@
 import PostService from '../../service/api/post.service';
 import {
-  FETCH_POSTS, FETCH_POST, POST_CREATE, POST_DELETE, POST_VOTE, COMMENT_CREATE, COMMENT_DELETE, FETCH_COMMENTS
+  POSTS_FETCH, POST_FETCH, POST_CREATE, POST_DELETE, POST_VOTE, COMMENT_CREATE, COMMENT_DELETE, COMMENTS_FETCH
 } from '../actions.type';
 import CommentService from '../../service/api/comment.service';
 
@@ -65,7 +65,7 @@ const mutations = {
 };
 
 const actions = {
-  [FETCH_POSTS] ({ commit }, {
+  [POSTS_FETCH] ({ commit }, {
     page = 0,
     perPage = 10,
     sort = null,
@@ -80,7 +80,7 @@ const actions = {
         commit('endLoading');
       });
   },
-  [FETCH_POST] ({ commit }, postId) {
+  [POST_FETCH] ({ commit }, postId) {
     commit('startPostLoading', postId);
     return PostService.getPost(postId).then(post => {
       commit('setPost', post);
@@ -89,14 +89,14 @@ const actions = {
   },
   [POST_CREATE] ({ commit, dispatch }, newPostRequest) {
     return PostService.createPost(newPostRequest)
-      .then(post => dispatch(FETCH_POSTS));
+      .then(post => dispatch(POSTS_FETCH));
   },
   [POST_DELETE] ({ commit, dispatch }, postId) {
     return PostService.deletePost(postId)
-      .then(post => dispatch(FETCH_POSTS));
+      .then(post => dispatch(POSTS_FETCH));
   },
   [POST_VOTE] ({ commit, dispatch }, {postId, answerId}) {
-    return PostService.vote(postId, answerId).then(post => dispatch(FETCH_POST));
+    return PostService.vote(postId, answerId).then(post => dispatch(POST_FETCH));
   },
   [COMMENT_CREATE] ({ commit }, {postId, newCommentRequest}) {
     commit('startCommentsLoading', postId);
@@ -112,7 +112,7 @@ const actions = {
       commit('stopCommentsLoading', postId);
     });
   },
-  [FETCH_COMMENTS] ({ commit }, postId) {
+  [COMMENTS_FETCH] ({ commit }, postId) {
     commit('startCommentsLoading', postId);
     return CommentService.getComments(postId).then(response => {
       commit('setComments', postId, response.comments);

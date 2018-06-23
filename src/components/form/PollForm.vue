@@ -1,6 +1,6 @@
 <template>
 <b-card>
-  <poll-input v-model="poll"></poll-input>
+  <poll-input ref="pollInput" v-model="pollRequest"></poll-input>
   <b-btn @click="onPollSave" block variant="success">Post</b-btn>
 </b-card>
 </template>
@@ -9,6 +9,8 @@
 import PollInput from '../input/PollInput';
 import Poll from '../../model/poll.js';
 import Post from '../../model/post.js';
+import PostRequest, { PollRequest } from '../../request/postRequest';
+import { POST_CREATE } from '../../store/actions.type.js';
 
 export default {
   name: 'PollForm',
@@ -17,19 +19,17 @@ export default {
   },
   data () {
     return {
-      poll: new Poll('', [])
+      pollRequest: new PollRequest('', [], [])
     };
   },
-
   methods: {
     onPollSave: function () {
-      if (!this.poll.question) return;
-      const answers = this.poll.answers.filter(a => a.text);
-      if (!answers.length) return;
-      this.poll.answers = this.poll.answers.filter(a => a.text);
-      const post = new Post(null, this.$store.getters.loggedUser, new Date(), this.poll);
-      this.$store.dispatch('createPost', post).then(res => this.$store.dispatch('fetchPosts'));
-      this.poll = new Poll('', []);
+      if (this.$refs.pollInput.validate()) {
+        const postRequest = new PostRequest(this.pollRequest);
+        this.$store.dispatch(POST_CREATE, postRequest);
+      } else {
+        console.log('validation error');
+      }
     }
   }
 };
