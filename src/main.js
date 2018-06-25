@@ -20,7 +20,7 @@ Vue.use(VueAxios, axios);
 Vue.use(BootstrapVue);
 
 Vue.use(GoogleAuth, {
-  client_id: '508998215885-i9eme0dij22ssjc3g2ihfr06dk3mtvcf.apps.googleusercontent.com'
+  client_id: '692257923347-ubo2upkf9subiu43h73eu5fsuvo86dib.apps.googleusercontent.com'
 });
 Vue.googleAuth().load();
 
