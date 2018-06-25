@@ -1,5 +1,5 @@
 export default class Poll {
-  constructor ({question, answers = [], votedAnswerId = null, tags = []}) {
+  constructor (question, answers, votedAnswerId, tags) {
     this.question = question;
     this.answers = answers;
     this.votedAnswerId = votedAnswerId;

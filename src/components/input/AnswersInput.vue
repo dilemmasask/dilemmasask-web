@@ -1,5 +1,5 @@
 <template>
-  <b-form-group label="Answers:" :state="state" :invalid-feedback="invalidFeedback">
+  <b-form-group :state="state" :invalid-feedback="invalidFeedback">
     <answer-input ref="answerInputs" v-for="index in value.length" :key="index" v-model="value[index - 1]" :no="index"></answer-input>
     <b-btn v-if="isMoreAnswersAllowed" @click="addAnswer" block variant="outline-warning">Add answer</b-btn>
   </b-form-group>

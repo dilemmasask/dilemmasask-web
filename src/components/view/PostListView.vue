@@ -6,27 +6,26 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import PostView from './PostView';
+import PostView from './post/PostView';
+import VotedPostView from './post/voted/VotedPostView';
+import { POSTS_FETCH } from '../../store/actions.type';
 
 export default {
   name: 'PostListView',
   components: {
-    PostView
-  },
-  data () {
-    return {
-      newPoll: { question: '', answers: [] }
-    };
+    PostView,
+    VotedPostView
   },
   computed: {
     ...mapGetters({
       posts: 'posts'
     })
   },
-  methods: {
-  },
   mounted () {
-    this.$store.dispatch('fetchPosts', [1, 10]);
+    this.$store.dispatch(POSTS_FETCH);
   }
 };
 </script>
+
+<style>
+</style>

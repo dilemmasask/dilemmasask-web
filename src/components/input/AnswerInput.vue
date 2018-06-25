@@ -1,6 +1,6 @@
 <template>
-  <b-input-group :prepend="no + ''">
-    <b-form-input v-model="value.text"></b-form-input>
+  <b-input-group>
+    <b-form-input v-model="value.text" :placeholder="`answer #${no}`"></b-form-input>
   </b-input-group>
 </template>
 

@@ -1,7 +1,8 @@
 import AuthService from '../../service/auth.service';
+import { SIGN_IN, SIGN_OUT } from '../actions.type';
 
 const state = {
-  authenticatedUser: AuthService.getLoggedUser()
+  isAuthenticated: AuthService.isAuthenticated()
 };
 
 const getters = {
@@ -9,22 +10,25 @@ const getters = {
     return state.isAuthenticated;
   },
   loggedUser (state) {
-    return state.loggedUser;
+    return AuthService.getLoggedUser();
   }
 };
 
 const mutations = {
-  setLoggedUser (user) {
-    this.loggedUser = user;
+  authenticate (state) {
+    state.isAuthenticated = true;
+  },
+  unAuthenticate (state) {
+    state.isAuthenticated = false;
   }
 };
 
 const actions = {
-  signIn ({ commit }) {
-    AuthService.signIn().then(user => { commit('setLoggedUser', user); });
+  [ SIGN_IN ] ({ commit }) {
+    return AuthService.signIn().then(res => commit('authenticate'));
   },
-  signOut ({ commit }) {
-    AuthService.signOut().then(() => commit('setLoggedUser', null));
+  [ SIGN_OUT ] ({ commit }) {
+    return AuthService.signOut().then(res => commit('unAuthenticate'));
   }
 };
 

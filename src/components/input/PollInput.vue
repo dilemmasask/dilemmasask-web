@@ -2,7 +2,6 @@
 <b-form-group>
   <question-input ref="questionInput" v-model="value.question"></question-input>
   <answers-input ref="answersInput" v-model="value.answers"></answers-input>
-  {{value}}
 </b-form-group>
 </template>
 
@@ -20,11 +19,6 @@ export default {
   props: [
     'value'
   ],
-  computed: {
-    question () {
-      return this.value.question;
-    }
-  },
   methods: {
     validate () {
       const results = [];

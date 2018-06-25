@@ -1,5 +1,5 @@
 <template>
-  <b-form-group label="Question:" :state="state" :invalid-feedback="invalidFeedback">
+  <b-form-group  :state="state" :invalid-feedback="invalidFeedback">
     <b-input-group append="?">
       <b-form-input id="question-input" placeholder="Enter your question ..." v-model="question" @input="onInput"></b-form-input>
     </b-input-group>

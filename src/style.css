@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #D0D0D0;
+
+}
+
+.card-body {
+  padding: none;
+}
+
+.answer-view {
+  height: 38px;
+  border: none;
+  padding: 0px 12px;
+}

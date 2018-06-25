@@ -1,15 +1,13 @@
 <template>
-<b-card>
+<b-container class="poll-form">
   <poll-input ref="pollInput" v-model="pollRequest"></poll-input>
   <b-btn @click="onPollSave" block variant="success">Post</b-btn>
-</b-card>
+</b-container>
 </template>
 
 <script>
 import PollInput from '../input/PollInput';
-import Poll from '../../model/poll.js';
-import Post from '../../model/post.js';
-import PostRequest, { PollRequest } from '../../request/postRequest';
+import { PollRequest } from '../../request/postRequest';
 import { POST_CREATE } from '../../store/actions.type.js';
 
 export default {
@@ -25,8 +23,7 @@ export default {
   methods: {
     onPollSave: function () {
       if (this.$refs.pollInput.validate()) {
-        const postRequest = new PostRequest(this.pollRequest);
-        this.$store.dispatch(POST_CREATE, postRequest);
+        this.$store.dispatch(POST_CREATE, this.pollRequest);
       } else {
         console.log('validation error');
       }
@@ -34,5 +31,8 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
+.container {
+  margin-bottom: 10px;
+}
 </style>

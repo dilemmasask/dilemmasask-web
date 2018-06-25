@@ -31,10 +31,14 @@ export default {
   },
 
   getDetails () {
-    return Cookies.get(TOKEN_KEY);
+    return JSON.parse(Cookies.get(TOKEN_KEY));
+  },
+
+  getTokenType () {
+    return this.getDetails().Zi.token_type;
   },
 
   getAccessToken () {
-    return this.getDetails().access_token;
+    return this.getDetails().Zi.access_token;
   }
 };

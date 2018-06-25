@@ -1,6 +1,6 @@
 import ApiService from './api.service';
 
-const POST_URL = '/posts';
+const POST_URL = 'posts';
 
 const PostService = {
   getPosts ({
@@ -11,10 +11,12 @@ const PostService = {
     to = null,
     tag = null
   }) {
-    const query = Object.keys(arguments[0])
-      .filter((k, v) => !!v)
-      .map((k, v) => `${k}=${v}`)
+    const params = arguments[0];
+    const query = Object.keys(params)
+      .filter(k => !!params[k])
+      .map(k => `${k}=${params[k]}`)
       .join('&');
+
     return ApiService.get(`${POST_URL}?${query}`);
   },
   getPost (postId) {
@@ -26,8 +28,11 @@ const PostService = {
   createPost (newPostReqest) {
     return ApiService.post(`${POST_URL}`, newPostReqest);
   },
-  vote (postId, answerId) {
-    return ApiService.post(`${POST_URL}/${postId}/vote/${answerId}`, '');
+  getComments (postId) {
+    return ApiService.get(`${POST_URL}/${postId}/comments`);
+  },
+  createComment (postId, newCommentRequest) {
+    return ApiService.post(`${POST_URL}/${postId}/comments`, newCommentRequest);
   }
 };
 

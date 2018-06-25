@@ -1,5 +1,5 @@
 export default class Post {
-  constructor ({id, dateTime = Date.now(), author, poll = null, comments = []}) {
+  constructor (id, dateTime, author, poll, comments) {
     this.id = id;
     this.dateTime = dateTime;
     this.author = author;
