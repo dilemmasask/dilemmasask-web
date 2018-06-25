@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import AuthService from '../auth.service';
 
-const SERVER_URL = process.env.API_URL || 'http://localhost:8081';
+const SERVER_URL = 'https://dilemmasask-api.herokuapp.com';
 
 const responseBody = response => response.data;
 
@@ -16,7 +16,11 @@ const ApiService = {
 
 function getReqestConfig () {
   if (!AuthService.isAuthenticated()) return {};
-  return { headers: { 'Authorization': `${AuthService.getTokenType()} ${AuthService.getAccessToken()}` } };
+  return {
+    headers: {
+      'Authorization': `${AuthService.getTokenType()} ${AuthService.getAccessToken()}`
+    }
+  };
 }
 
 export default ApiService;
