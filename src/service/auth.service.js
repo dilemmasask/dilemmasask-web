@@ -10,7 +10,7 @@ export default {
       Vue.googleAuth().signIn(resolve, reject);
     });
     Cookies.set(TOKEN_KEY, googleUser, {
-      expires: 1
+      expires: 10
     });
     return googleUser;
   },

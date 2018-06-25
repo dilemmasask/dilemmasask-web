@@ -7,7 +7,7 @@
 
 <script>
 import PollInput from '../input/PollInput';
-import { PollRequest } from '../../request/postRequest';
+import { PollRequest, AnswerRequest } from '../../request/postRequest';
 import { POST_CREATE } from '../../store/actions.type.js';
 
 export default {
@@ -24,6 +24,7 @@ export default {
     onPollSave: function () {
       if (this.$refs.pollInput.validate()) {
         this.$store.dispatch(POST_CREATE, this.pollRequest);
+        this.pollRequest = new PollRequest('', [new AnswerRequest(''), new AnswerRequest('')], []);
       } else {
         console.log('validation error');
       }
